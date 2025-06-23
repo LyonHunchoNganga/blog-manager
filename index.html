@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Manager</title>
+  <script defer src="app.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Post Manager</h1>
+
+    <!-- Create New Post Form -->
+    <form id="new-post-form" class="mb-6">
+      <h4 class="text-xl font-semibold mb-2">Create New Post</h4>
+      <input type="text" id="new-title" placeholder="Title" required class="p-2 border rounded-md w-full mb-2">
+      <textarea id="new-content" placeholder="Content" rows="4" required class="p-2 border rounded-md w-full mb-2"></textarea>
+      <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md">Create</button>
+    </form>
+
+    <!-- Edit Post Form -->
+    <form id="edit-post-form" class="hidden mb-6">
+      <h4 class="text-xl font-semibold mb-2">Update Post</h4>
+      <input type="text" id="edit-title" class="p-2 border rounded-md w-full mb-2">
+      <textarea id="edit-content" rows="4" class="p-2 border rounded-md w-full mb-2"></textarea>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Update</button>
+      <button type="button" id="cancel-edit" class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md ml-2">Cancel</button>
+      <button type="button" id="delete-post" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md ml-2">Delete</button>
+    </form>
+
+    <!-- Posts Container -->
+    <div id="posts" class="space-y-4"></div>
+  </div>
+</body>
+</html>
