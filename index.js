@@ -1,109 +1,72 @@
-// Base URL for API
-const API_URL = 'http://localhost:3000/posts'; // Change this to match your backend
+// Get references to DOM elements
+const postForm = document.getElementById("post-form");
+const titleInput = document.getElementById("title");
+const contentInput = document.getElementById("content");
+const postsList = document.getElementById("posts-list");
 
-// DOM elements
-const newPostForm = document.getElementById('new-post-form');
-const editPostForm = document.getElementById('edit-post-form');
-const postsContainer = document.getElementById('posts');
+// Array to hold blog posts
+let posts = [];
 
-const newTitleInput = document.getElementById('new-title');
-const newContentInput = document.getElementById('new-content');
+// Load posts from localStorage on page load
+window.addEventListener("DOMContentLoaded", () => {
+  const storedPosts = localStorage.getItem("blogPosts");
+  if (storedPosts) {
+    posts = JSON.parse(storedPosts);
+    renderPosts();
+  }
+});
 
-const editTitleInput = document.getElementById('edit-title');
-const editContentInput = document.getElementById('edit-content');
-const cancelEditBtn = document.getElementById('cancel-edit');
-const deletePostBtn = document.getElementById('delete-post');
+// Handle form submission
+postForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-let currentEditId = null;
+  const title = titleInput.value.trim();
+  const content = contentInput.value.trim();
 
-// Fetch and display all posts
-function loadPosts() {
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(posts => {
-      postsContainer.innerHTML = '';
-      posts.forEach(renderPost);
-    });
+  if (title && content) {
+    const newPost = {
+      id: Date.now(),
+      title,
+      content,
+    };
+
+    posts.unshift(newPost); // Add to beginning
+    savePosts();
+    renderPosts();
+    postForm.reset(); // Clear form
+  }
+});
+// Save posts to localStorage
+function savePosts() {
+  localStorage.setItem("blogPosts", JSON.stringify(posts));
 }
 
-function renderPost(post) {
-  const postEl = document.createElement('div');
-  postEl.className = 'bg-white p-4 rounded-md shadow';
-  postEl.innerHTML = `
-    <h3 class="text-lg font-bold">${post.title}</h3>
-    <p>${post.content}</p>
-    <button data-id="${post.id}" class="edit-btn bg-blue-500 text-white py-1 px-3 rounded-md mt-2">Edit</button>
-  `;
-  postsContainer.appendChild(postEl);
+// Render posts to the DOM
+function renderPosts() {
+  postsList.innerHTML = "";
 
-  postEl.querySelector('.edit-btn').addEventListener('click', () => {
-    currentEditId = post.id;
-    editTitleInput.value = post.title;
-    editContentInput.value = post.content;
-    editPostForm.classList.remove('hidden');
-    newPostForm.classList.add('hidden');
+  if (posts.length === 0) {
+    postsList.innerHTML = "<p>No posts yet.</p>";
+    return;
+  }
+
+  posts.forEach((post) => {
+    const postCard = document.createElement("div");
+    postCard.className = "post";
+
+    postCard.innerHTML = `
+      <h3>${post.title}</h3>
+      <p>${post.content}</p>
+      <button onclick="deletePost(${post.id})">Delete</button>
+    `;
+
+    postsList.appendChild(postCard);
   });
 }
 
-// Create new post
-newPostForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const postData = {
-    title: newTitleInput.value,
-    content: newContentInput.value
-  };
-
-  fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(postData)
-  })
-    .then(() => {
-      newPostForm.reset();
-      loadPosts();
-    });
-});
-
-// Update existing post
-editPostForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const updatedData = {
-    title: editTitleInput.value,
-    content: editContentInput.value
-  };
-
-  fetch(`${API_URL}/${currentEditId}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedData)
-  })
-    .then(() => {
-      editPostForm.reset();
-      editPostForm.classList.add('hidden');
-      newPostForm.classList.remove('hidden');
-      loadPosts();
-    });
-});
-
-// Cancel editing
-cancelEditBtn.addEventListener('click', () => {
-  editPostForm.reset();
-  editPostForm.classList.add('hidden');
-  newPostForm.classList.remove('hidden');
-});
-
-// Delete post
-deletePostBtn.addEventListener('click', () => {
-  fetch(`${API_URL}/${currentEditId}`, {
-    method: 'DELETE'
-  })
-    .then(() => {
-      editPostForm.reset();
-      editPostForm.classList.add('hidden');
-      newPostForm.classList.remove('hidden');
-      loadPosts();
-    });
-});
-
-// Initialize
-loadPosts();
+// Delete a post by ID
+function deletePost(id) {
+  posts = posts.filter((post) => post.id !== id);
+  savePosts();
+  renderPosts();
+}

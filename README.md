@@ -59,13 +59,3 @@ Add authentication for post creation
 📄 License
 This project is open-source and available under the MIT License.
 
-🙌 Author
-Created by LyonHunchoNganga – contributions welcome!
-
-yaml
-Copy
-Edit
-
----
-
-Let me know if the project is more complex (like it uses React, Node.js, or a database), and
