@@ -1,54 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog Post Manager</title>
-  <link rel="stylesheet" href="index.css" />
+  <title>Elite Blog Post Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./index.css" />
 </head>
-
 <body>
-  <div class="container">
-    <header>
-      <h1>Blog Post Manager</h1>
-    </header>
+  <header>
+    <h1>Blog Post Manager</h1>
+    <p>Manage, create, and view your blog posts with elegance.</p>
+  </header>
 
-    <main>
-      <section aria-labelledby="create-post-heading">
-        <h2 id="create-post-heading">Create a New Post</h2>
-        <form id="post-form">
-          <div class="form-group">
-            <label for="title">Post Title</label>
-            <input type="text" id="title" name="title" placeholder="Enter post title" required />
-          </div>
+  <main>
+    <section id="form-section" class="card">
+      <h2>Add a New Post</h2>
+      <form id="postForm">
+        <div class="form-group">
+          <label for="postTitle">Title</label>
+          <input type="text" id="postTitle" name="title" placeholder="Enter post title" required />
+        </div>
+        <div class="form-group">
+          <label for="postAuthor">Author</label>
+          <input type="text" id="postAuthor" name="author" placeholder="Author name" required />
+        </div>
+        <div class="form-group">
+          <label for="postCategory">Category</label>
+          <select id="postCategory" name="category" required>
+            <option value="">Select category</option>
+            <option value="Tech">Tech</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Business">Business</option>
+            <option value="Travel">Travel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="postContent">Content</label>
+          <textarea id="postContent" name="content" rows="6" placeholder="Write your post here..." required></textarea>
+        </div>
 
-          <div class="form-group">
-            <label for="content">Content</label>
-            <textarea id="content" name="content" rows="5" placeholder="Write your post here..." required></textarea>
-          </div>
+        <div class="form-actions">
+          <button type="submit" class="btn primary">➕ Add Post</button>
+    
+        </div>
+        <div class="form-actions">
+          <button type="reset" class="btn secondary">❌ Reset</button>
+      </form>
+    </section>
 
-          <div class="form-actions">
-            <button type="submit">Add Post</button>
-            <button type="reset">Reset</button>
-      
-          </div>
-        </form>
-      </section>
+    <section id="control-section">
+      <button id="loadPostsBtn" class="btn success">Load All Posts</button>
+    </section>
 
-      <section aria-labelledby="all-posts-heading">
-        <h2 id="all-posts-heading">All Blog Posts</h2>
-        <div id="posts-list" role="list"></div>
-      </section>
-    </main>
+    <section id="posts-section" class="card">
+      <h2>All Blog Posts</h2>
+      <div id="postsContainer">
+        <!-- Dynamically loaded blog posts will appear here -->
+      </div>
+    </section>
+  </main>
 
-    <footer>
-      <p>&copy; 2025 Blog Post Manager</p>
-    </footer>
-  </div>
+  <footer>
+    <p>&copy; 2025 Blog Manager | Built with by Lyon</p>
+  </footer>
 
-  <script src="index.js"></script>
+  <script src="./index.js"></script>
 </body>
-
-</html>
-```
+</html
